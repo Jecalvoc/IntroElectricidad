@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>⚡ Taller de Energía — Chispa te enseña</title>
+<style>
+:root{
+  --dark:#2b2d42; --yellow:#ffd166; --pink:#ef476f;
+  --green:#06d6a0; --blue:#118ab2; --orange:#f4a261;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  margin:0;padding:0;min-height:100vh;
+  font-family:'Comic Sans MS','Chalkboard SE','Trebuchet MS',system-ui,sans-serif;
+  color:var(--dark);
+  background:
+    radial-gradient(circle at 8% 0%, #d9f7ff 0%, transparent 50%),
+    radial-gradient(circle at 92% 8%, #fff3d6 0%, transparent 45%),
+    radial-gradient(circle at 50% 100%, #ffe6f0 0%, transparent 55%),
+    #f7fbff;
+}
+.app{max-width:880px;margin:0 auto;padding:0 14px 40px}
+
+.topbar{
+  position:sticky;top:0;z-index:20;
+  display:flex;align-items:center;gap:10px;
+  padding:10px 4px;margin-bottom:8px;
+  background:rgba(247,251,255,.88);backdrop-filter:blur(6px);
+}
+.icon-btn{
+  border:3px solid var(--dark);background:#fff;border-radius:14px;
+  font-size:1.1rem;width:44px;height:44px;cursor:pointer;
+  box-shadow:0 3px 0 var(--dark);transition:.12s;font-family:inherit;
+}
+.icon-btn:active{transform:translateY(3px);box-shadow:0 0 0 var(--dark)}
+.brand{font-weight:bold;font-size:1.15rem;flex:1}
+.stars{
+  background:#fff;border:3px solid var(--dark);border-radius:16px;
+  padding:6px 12px;font-weight:bold;box-shadow:0 3px 0 var(--dark);
+  font-size:1rem;white-space:nowrap;
+}
+
+h1{font-size:1.9rem;text-align:center;margin:10px 0 4px;line-height:1.15}
+.lead{text-align:center;font-size:1rem;margin:6px auto 18px;max-width:600px;color:#4a4e69}
+.cards{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:640px){.cards{grid-template-columns:1fr 1fr}}
+.card{
+  display:flex;align-items:center;gap:14px;text-align:left;
+  background:#fff;border:4px solid var(--dark);border-radius:22px;
+  padding:14px;cursor:pointer;font-family:inherit;color:var(--dark);
+  box-shadow:0 5px 0 var(--dark);transition:.14s;width:100%;
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 0 var(--dark)}
+.card:active{transform:translateY(2px);box-shadow:0 3px 0 var(--dark)}
+.card .emoji{
+  width:58px;height:58px;flex:0 0 58px;border-radius:18px;
+  display:grid;place-items:center;font-size:1.9rem;border:3px solid var(--dark);
+}
+.card h3{margin:0 0 4px;font-size:1.02rem;line-height:1.2}
+.card p{margin:0;font-size:.8rem;color:#5c6070}
+.mini-bar{height:9px;background:#e9eef5;border-radius:9px;margin-top:8px;overflow:hidden;border:2px solid #dfe6ef}
+.mini-fill{height:100%;border-radius:9px;transition:width .4s}
+.total{text-align:center;margin-top:22px;font-size:.95rem;color:#4a4e69}
+.reset{
+  display:block;margin:16px auto 0;background:none;border:none;
+  color:#8d93a5;font-size:.82rem;text-decoration:underline;cursor:pointer;font-family:inherit;
+}
+
+.panel{
+  background:#fff;border:4px solid var(--dark);border-radius:26px;
+  padding:22px 18px;box-shadow:0 6px 0 var(--dark);text-align:center;
+  animation:pop .3s ease-out;
+}
+.badge{
+  width:84px;height:84px;margin:0 auto 10px;border-radius:26px;
+  display:grid;place-items:center;font-size:2.6rem;border:4px solid var(--dark);
+}
+.panel h2{margin:6px 0;font-size:1.3rem}
+.fact{
+  background:#fff9e6;border:3px dashed var(--orange);border-radius:16px;
+  padding:12px;font-size:.92rem;text-align:left;margin:14px 0;line-height:1.4;
+}
+.big-btn{
+  display:inline-block;border:4px solid var(--dark);border-radius:18px;
+  background:var(--green);color:#fff;font-family:inherit;font-weight:bold;
+  font-size:1.05rem;padding:13px 26px;cursor:pointer;
+  box-shadow:0 5px 0 var(--dark);transition:.14s;margin-top:8px;
+}
+.big-btn:hover{transform:translateY(-2px);box-shadow:0 7px 0 var(--dark)}
+.big-btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--dark)}
+.big-btn.alt{background:var(--blue)}
+.link-btn{
+  display:block;margin:14px auto 0;background:none;border:none;
+  color:#7b8194;text-decoration:underline;cursor:pointer;font-family:inherit;font-size:.9rem;
+}
+
+.mhead{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:10px}
+.pill{
+  border:3px solid var(--dark);border-radius:14px;padding:5px 12px;
+  font-size:.82rem;font-weight:bold;box-shadow:0 3px 0 var(--dark);
+}
+.pill.light{background:#fff}
+.dots{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin:0 0 14px}
+.dot{width:12px;height:12px;border-radius:50%;background:#dde4ee;border:2px solid #cfd8e6}
+.dot.done{background:var(--green);border-color:#049e78}
+.dot.now{background:var(--yellow);border-color:var(--orange);transform:scale(1.3)}
+
+.art-box{
+  background:linear-gradient(180deg,#f2fbff,#eaf6ff);
+  border:3px solid var(--dark);border-radius:22px;
+  padding:8px;display:grid;place-items:center;margin-bottom:14px;
+  box-shadow:0 4px 0 rgba(43,45,66,.18);
+}
+svg.art{width:100%;max-width:340px;height:auto;display:block}
+
+.qtext{font-size:1.12rem;line-height:1.35;margin:0 0 14px;text-align:center}
+.opts{display:grid;gap:11px}
+.opt{
+  display:flex;align-items:center;gap:12px;text-align:left;
+  background:#fff;border:3px solid var(--dark);border-radius:18px;
+  padding:13px 15px;font-size:.98rem;font-family:inherit;color:var(--dark);
+  cursor:pointer;box-shadow:0 4px 0 var(--dark);transition:.13s;line-height:1.3;
+}
+.opt:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 6px 0 var(--dark);background:#f6fcff}
+.opt:active:not(:disabled){transform:translateY(2px);box-shadow:0 2px 0 var(--dark)}
+.opt .letter{
+  flex:0 0 30px;width:30px;height:30px;border-radius:50%;
+  background:var(--yellow);border:3px solid var(--dark);
+  display:grid;place-items:center;font-weight:bold;font-size:.9rem;
+}
+.opt.correct{background:#d8f8ec;border-color:#059e78;box-shadow:0 4px 0 #059e78}
+.opt.correct .letter{background:var(--green)}
+.opt.wrong{background:#ffe3e9;border-color:var(--pink);box-shadow:0 4px 0 var(--pink);animation:shake .4s}
+.opt.wrong .letter{background:var(--pink)}
+.opt.dim{opacity:.45}
+.opt:disabled{cursor:default}
+
+.fb{margin-top:16px;border-radius:20px;padding:14px;border:3px solid var(--dark);animation:pop .25s}
+.fb.ok{background:#e3fbf1;border-color:#059e78}
+.fb.no{background:#fff0f3;border-color:var(--pink)}
+.fb-text{font-size:.95rem;line-height:1.45}
+.fb .big-btn{margin-top:14px}
+
+@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes shake{
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)}
+  40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)}
+}
+.pop-layer{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:60}
+.pop-layer span{position:absolute;bottom:12%;font-size:2rem;animation:floatUp 1.5s ease-out forwards}
+@keyframes floatUp{
+  0%{transform:translateY(0) scale(.6);opacity:1}
+  100%{transform:translateY(-70vh) scale(1.25) rotate(20deg);opacity:0}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <button class="icon-btn" id="btnHome" title="Volver al inicio">🏠</button>
+    <div class="brand">⚡ Taller de Energía</div>
+    <div class="stars"><span id="starCount">0</span> ⭐</div>
+  </header>
+  <main id="screen"></main>
+</div>
+
+<script>
+/* =========================================================
+   1. ILUSTRACIONES SVG
+   ========================================================= */
+const D = '#2b2d42';
+const S = (inner) => `<svg class="art" viewBox="0 0 220 150" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+
+const ART = {
+  circuito: () => S(`
+    <path d="M40 35 H120" stroke="${D}" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M150 35 H180" stroke="${D}" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <line x1="120" y1="35" x2="150" y2="35" stroke="${D}" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="120" cy="35" r="5.5" fill="${D}"/><circle cx="150" cy="35" r="5.5" fill="${D}"/>
+    <path d="M180 35 V58" stroke="${D}" stroke-width="4" fill="none"/>
+    <path d="M180 92 V115 H40" stroke="${D}" stroke-width="4" fill="none"/>
+    <path d="M40 115 V86" stroke="${D}" stroke-width="4" fill="none"/>
+    <path d="M40 64 V35" stroke="${D}" stroke-width="4" fill="none"/>
+    <circle cx="180" cy="75" r="17" fill="#ffd166" stroke="${D}" stroke-width="4"/>
+    <line x1="168" y1="63" x2="192" y2="87" stroke="${D}" stroke-width="3"/>
+    <line x1="192" y1="63" x2="168" y2="87" stroke="${D}" stroke-width="3"/>
+    <line x1="24" y1="66" x2="56" y2="66" stroke="${D}" stroke-width="5" stroke-linecap="round"/>
+    <line x1="31" y1="84" x2="49" y2="84" stroke="${D}" stroke-width="5" stroke-linecap="round"/>
+    <text x="60" y="62" font-size="15" font-weight="bold" fill="#ef476f">+</text>
+    <text x="60" y="96" font-size="15" font-weight="bold" fill="#118ab2">−</text>
+    <polygon points="86,29 98,35 86,41" fill="#ef476f"/>
+    <polygon points="174,52 180,64 168,64" fill="#ef476f"/>
+    <polygon points="134,109 122,115 134,121" fill="#ef476f"/>
+    <polygon points="34,68 40,56 46,68" fill="#ef476f"/>`),
+  abierto: () => S(`
+    <path d="M40 35 H120" stroke="${D}" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M150 35 H180" stroke="${D}" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <line x1="120" y1="35" x2="146" y2="14" stroke="${D}" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="120" cy="35" r="5.5" fill="${D}"/><circle cx="150" cy="35" r="5.5" fill="${D}"/>
+    <path d="M180 35 V58" stroke="${D}" stroke-width="4" fill="none"/>
+    <path d="M180 92 V115 H40" stroke="${D}" stroke-width="4" fill="none"/>
+    <path d="M40 115 V86" stroke="${D}" stroke-width="4" fill="none"/>
+    <path d="M40 64 V35" stroke="${D}" stroke-width="4" fill="none"/>
+    <circle cx="180" cy="75" r="17" fill="#e9eef5" stroke="${D}" stroke-width="4"/>
+    <line x1="168" y1="63" x2="192" y2="87" stroke="${D}" stroke-width="3"/>
+    <line x1="192" y1="63" x2="168" y2="87" stroke="${D}" stroke-width="3"/>
+    <line x1="24" y1="66" x2="56" y2="66" stroke="${D}" stroke-width="5" stroke-linecap="round"/>
+    <line x1="31" y1="84" x2="49" y2="84" stroke="${D}" stroke-width="5" stroke-linecap="round"/>
+    <text x="152" y="30" font-size="22" fill="#ef476f" font-weight="bold">✕</text>`),
+  pila: () => S(`
+    <rect x="65" y="32" width="90" height="86" rx="12" fill="#f4a261" stroke="${D}" stroke-width="4"/>
+    <rect x="65" y="32" width="90" height="26" rx="10" fill="#e76f51" stroke="${D}" stroke-width="4"/>
+    <rect x="92" y="16" width="36" height="18" rx="5" fill="#adb5bd" stroke="${D}" stroke-width="4"/>
+    <text x="110" y="92" text-anchor="middle" font-size="36" font-weight="bold" fill="#fff">+−</text>`),
+  bombilla: () => S(`
+    <g stroke="#f4a261" stroke-width="4" stroke-linecap="round">
+      <line x1="110" y1="6" x2="110" y2="16"/><line x1="58" y1="22" x2="66" y2="30"/>
+      <line x1="162" y1="22" x2="154" y2="30"/><line x1="42" y1="62" x2="56" y2="62"/>
+      <line x1="178" y1="62" x2="164" y2="62"/></g>
+    <circle cx="110" cy="62" r="34" fill="#ffd166" stroke="${D}" stroke-width="4"/>
+    <rect x="94" y="92" width="32" height="26" rx="4" fill="#adb5bd" stroke="${D}" stroke-width="4"/>
+    <line x1="94" y1="101" x2="126" y2="101" stroke="${D}" stroke-width="3"/>
+    <line x1="94" y1="110" x2="126" y2="110" stroke="${D}" stroke-width="3"/>`),
+  cable: () => S(`
+    <path d="M15 80 Q 60 45 110 78 T 205 72" stroke="${D}" stroke-width="16" fill="none" stroke-linecap="round"/>
+    <path d="M15 80 Q 60 45 110 78 T 205 72" stroke="#e76f51" stroke-width="11" fill="none" stroke-linecap="round"/>
+    <path d="M15 80 Q 60 45 110 78 T 205 72" stroke="#f4a261" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <circle cx="15" cy="80" r="8" fill="#ffd166" stroke="${D}" stroke-width="3"/>
+    <circle cx="205" cy="72" r="8" fill="#ffd166" stroke="${D}" stroke-width="3"/>`),
+  interruptor: () => S(`
+    <line x1="25" y1="100" x2="90" y2="100" stroke="${D}" stroke-width="6" stroke-linecap="round"/>
+    <line x1="130" y1="100" x2="195" y2="100" stroke="${D}" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="90" cy="100" r="8" fill="${D}"/><circle cx="130" cy="100" r="8" fill="${D}"/>
+    <line x1="90" y1="100" x2="152" y2="52" stroke="${D}" stroke-width="7" stroke-linecap="round"/>
+    <text x="24" y="128" font-size="13" fill="#7b8194">OFF</text>`),
+  motor: () => S(`
+    <line x1="152" y1="75" x2="186" y2="75" stroke="${D}" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="196" cy="75" r="11" fill="#06d6a0" stroke="${D}" stroke-width="4"/>
+    <circle cx="106" cy="75" r="44" fill="#118ab2" stroke="${D}" stroke-width="4"/>
+    <text x="106" y="92" text-anchor="middle" font-size="44" font-weight="bold" fill="#fff">M</text>
+    <line x1="20" y1="75" x2="62" y2="75" stroke="${D}" stroke-width="6" stroke-linecap="round"/>`),
+  solar: () => S(`
+    <circle cx="36" cy="26" r="15" fill="#ffd166" stroke="${D}" stroke-width="3"/>
+    <polygon points="45,112 72,42 172,42 200,112" fill="#118ab2" stroke="${D}" stroke-width="4"/>
+    <g stroke="#cdeffb" stroke-width="2.5">
+      <line x1="60" y1="70" x2="188" y2="70"/><line x1="52" y1="91" x2="194" y2="91"/>
+      <line x1="80" y1="42" x2="64" y2="112"/><line x1="112" y1="42" x2="106" y2="112"/>
+      <line x1="145" y1="42" x2="150" y2="112"/></g>
+    <line x1="122" y1="112" x2="122" y2="134" stroke="${D}" stroke-width="5"/>
+    <line x1="98" y1="137" x2="146" y2="137" stroke="${D}" stroke-width="5" stroke-linecap="round"/>`),
+  led: () => S(`
+    <line x1="22" y1="85" x2="70" y2="85" stroke="${D}" stroke-width="5"/>
+    <polygon points="70,45 70,125 142,85" fill="#ef476f" stroke="${D}" stroke-width="4"/>
+    <line x1="142" y1="45" x2="142" y2="125" stroke="${D}" stroke-width="7" stroke-linecap="round"/>
+    <line x1="142" y1="85" x2="196" y2="85" stroke="${D}" stroke-width="5"/>
+    <g stroke="#ffd166" stroke-width="4.5" stroke-linecap="round">
+      <line x1="92" y1="36" x2="82" y2="22"/><line x1="112" y1="32" x2="112" y2="16"/>
+      <line x1="132" y1="36" x2="142" y2="22"/></g>`),
+  ventilador: () => S(`
+    <g fill="#06d6a0" stroke="${D}" stroke-width="3">
+      <ellipse cx="110" cy="42" rx="15" ry="31" transform="rotate(0 110 75)"/>
+      <ellipse cx="110" cy="42" rx="15" ry="31" transform="rotate(120 110 75)"/>
+      <ellipse cx="110" cy="42" rx="15" ry="31" transform="rotate(240 110 75)"/></g>
+    <circle cx="110" cy="75" r="12" fill="${D}"/>
+    <line x1="110" y1="87" x2="110" y2="130" stroke="${D}" stroke-width="6" stroke-linecap="round"/>`),
+  timbre: () => S(`
+    <rect x="96" y="16" width="28" height="14" rx="5" fill="${D}"/>
+    <path d="M110 30 C 68 30 70 82 58 104 H162 C150 82 152 30 110 30 Z" fill="#ffd166" stroke="${D}" stroke-width="4"/>
+    <circle cx="110" cy="116" r="11" fill="#f4a261" stroke="${D}" stroke-width="4"/>
+    <g stroke="#ef476f" stroke-width="5" stroke-linecap="round">
+      <line x1="26" y1="58" x2="44" y2="66"/><line x1="194" y1="58" x2="176" y2="66"/>
+      <line x1="20" y1="90" x2="40" y2="92"/><line x1="200" y1="90" x2="180" y2="92"/></g>`),
+  corto: () => S(`
+    <rect x="16" y="52" width="72" height="52" rx="10" fill="#f4a261" stroke="${D}" stroke-width="4"/>
+    <text x="52" y="88" text-anchor="middle" font-size="26" font-weight="bold" fill="#fff">+−</text>
+    <path d="M88 62 H178 V94 H88" stroke="#ef476f" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <polygon points="140,10 116,52 138,52 122,92 168,44 144,44 160,10" fill="#ffd166" stroke="${D}" stroke-width="3"/>
+    <g fill="#ef476f" opacity="0.85">
+      <circle cx="190" cy="45" r="5"/><circle cx="204" cy="62" r="4"/><circle cx="188" cy="80" r="4"/></g>`),
+  multimetro: () => S(`
+    <rect x="52" y="16" width="112" height="118" rx="14" fill="#f4a261" stroke="${D}" stroke-width="4"/>
+    <rect x="68" y="32" width="80" height="36" rx="6" fill="#e0f7fa" stroke="${D}" stroke-width="3"/>
+    <text x="108" y="58" text-anchor="middle" font-size="19" font-weight="bold" fill="${D}">0.0 Ω</text>
+    <circle cx="108" cy="102" r="18" fill="${D}"/>
+    <line x1="108" y1="102" x2="108" y2="88" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+    <path d="M164 58 q30 14 28 46" stroke="#ef476f" stroke-width="4" fill="none"/>
+    <circle cx="192" cy="108" r="5" fill="#ef476f"/>`),
+  represa: () => S(`
+    <rect x="0" y="18" width="220" height="62" fill="#a8e6f7"/>
+    <circle cx="36" cy="42" r="11" fill="#fff" opacity="0.55"/>
+    <circle cx="176" cy="38" r="14" fill="#fff" opacity="0.45"/>
+    <path d="M72 28 H148 L168 138 H52 Z" fill="#adb5bd" stroke="${D}" stroke-width="4"/>
+    <rect x="0" y="80" width="220" height="70" fill="#118ab2" opacity="0.35"/>
+    <path d="M52 130 q28 -12 56 0 q28 12 56 0" stroke="#06d6a0" stroke-width="4" fill="none"/>`),
+  molino: () => S(`
+    <line x1="110" y1="74" x2="110" y2="140" stroke="${D}" stroke-width="9" stroke-linecap="round"/>
+    <g stroke="${D}" stroke-width="4" fill="#e0f7fa">
+      <path d="M110 74 L110 18 L120 22 L110 74 Z"/>
+      <path d="M110 74 L160 100 L156 110 L110 74 Z"/>
+      <path d="M110 74 L60 100 L64 110 L110 74 Z"/></g>
+    <circle cx="110" cy="74" r="9" fill="${D}"/>
+    <g stroke="#06d6a0" stroke-width="3.5" fill="none" stroke-linecap="round">
+      <path d="M14 52 q12 -14 24 0"/><path d="M8 72 q12 -14 24 0"/>
+      <path d="M182 52 q12 -14 24 0"/></g>`),
+  termica: () => S(`
+    <g fill="#b8bec8" opacity="0.9">
+      <circle cx="98" cy="24" r="13"/><circle cx="118" cy="14" r="10"/><circle cx="84" cy="14" r="9"/></g>
+    <rect x="88" y="34" width="24" height="42" fill="#6c757d" stroke="${D}" stroke-width="3"/>
+    <rect x="56" y="76" width="108" height="60" rx="4" fill="#adb5bd" stroke="${D}" stroke-width="4"/>
+    <rect x="70" y="92" width="22" height="22" fill="#ffd166" stroke="${D}" stroke-width="2"/>
+    <rect x="108" y="92" width="22" height="22" fill="#ffd166" stroke="${D}" stroke-width="2"/>
+    <rect x="146" y="92" width="12" height="22" fill="#8b5e34" stroke="${D}" stroke-width="2"/>`),
+  mapa: () => S(`
+    <path d="M74 16 C 118 6 158 40 154 82 C 150 124 116 144 86 132 C 54 120 36 88 48 58 C 54 40 56 22 74 16 Z"
+          fill="#06d6a0" stroke="${D}" stroke-width="3" opacity="0.85"/>
+    <circle cx="92" cy="52" r="9" fill="#ffd166" stroke="${D}" stroke-width="2.5"/>
+    <circle cx="124" cy="90" r="9" fill="#ef476f" stroke="${D}" stroke-width="2.5"/>
+    <circle cx="76" cy="104" r="9" fill="#118ab2" stroke="${D}" stroke-width="2.5"/>`),
+  fantasma: () => S(`
+    <path d="M110 132 v-14" stroke="${D}" stroke-width="7" stroke-linecap="round"/>
+    <rect x="78" y="58" width="64" height="62" rx="12" fill="#adb5bd" stroke="${D}" stroke-width="4"/>
+    <rect x="92" y="38" width="11" height="22" fill="${D}"/>
+    <rect x="117" y="38" width="11" height="22" fill="${D}"/>
+    <circle cx="98" cy="90" r="4" fill="${D}"/><circle cx="122" cy="90" r="4" fill="${D}"/>
+    <path d="M100 104 q10 7 20 0" stroke="${D}" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <text x="164" y="56" font-size="26" font-weight="bold" fill="#ef476f">z</text>
+    <text x="182" y="34" font-size="20" font-weight="bold" fill="#ef476f">z</text>`),
+  bombillas2: () => S(`
+    <rect x="18" y="52" width="84" height="60" rx="14" fill="#e3fbf1" stroke="${D}" stroke-width="4"/>
+    <circle cx="60" cy="82" r="22" fill="#06d6a0" stroke="${D}" stroke-width="4"/>
+    <text x="60" y="92" text-anchor="middle" font-size="20" font-weight="bold" fill="#fff">LED</text>
+    <rect x="118" y="52" width="84" height="60" rx="14" fill="#ffe3e9" stroke="${D}" stroke-width="4"/>
+    <circle cx="160" cy="82" r="22" fill="#ef476f" stroke="${D}" stroke-width="4"/>
+    <text x="160" y="92" text-anchor="middle" font-size="22">🔥</text>
+    <text x="60" y="134" text-anchor="middle" font-size="13" fill="#059e78" font-weight="bold">Gasta poco</text>
+    <text x="160" y="134" text-anchor="middle" font-size="13" fill="#ef476f" font-weight="bold">Gasta mucho</text>`),
+  casa: () => S(`
+    <rect x="50" y="70" width="120" height="66" fill="#ffd166" stroke="${D}" stroke-width="4"/>
+    <polygon points="36,72 110,22 184,72" fill="#ef476f" stroke="${D}" stroke-width="4"/>
+    <rect x="94" y="100" width="32" height="36" fill="#8b5e34" stroke="${D}" stroke-width="3"/>
+    <circle cx="70" cy="90" r="11" fill="#e0f7fa" stroke="${D}" stroke-width="3"/>
+    <circle cx="150" cy="90" r="11" fill="#e0f7fa" stroke="${D}" stroke-width="3"/>
+    <circle cx="180" cy="26" r="13" fill="#ffd166" stroke="${D}" stroke-width="3"/>`),
+  checklist: () => S(`
+    <rect x="54" y="16" width="112" height="120" rx="10" fill="#fff" stroke="${D}" stroke-width="4"/>
+    <rect x="88" y="8" width="44" height="16" rx="5" fill="#adb5bd" stroke="${D}" stroke-width="3"/>
+    <g stroke="#06d6a0" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M70 48 l8 9 l15 -18"/><path d="M70 84 l8 9 l15 -18"/><path d="M70 120 l8 9 l15 -18"/></g>
+    <g stroke="${D}" stroke-width="3" opacity="0.35" stroke-linecap="round">
+      <line x1="104" y1="48" x2="152" y2="48"/><line x1="104" y1="84" x2="152" y2="84"/>
+      <line x1="104" y1="120" x2="152" y2="120"/></g>`),
+  rayo: () => S(`
+    <path d="M118 8 L58 86 H100 L84 142 L166 58 H120 L146 8 Z"
+          fill="#ffd166" stroke="${D}" stroke-width="5" stroke-linejoin="round"/>
+    <circle cx="30" cy="40" r="7" fill="#ef476f" opacity="0.6"/>
+    <circle cx="196" cy="110" r="9" fill="#ef476f" opacity="0.5"/>`),
+  hoja: () => S(`
+    <path d="M34 122 C 34 48 108 16 186 28 C 186 102 122 134 34 122 Z"
+          fill="#43aa8b" stroke="${D}" stroke-width="4"/>
+    <path d="M34 122 C 78 92 122 62 174 42" stroke="${D}" stroke-width="3" fill="none"/>
+    <path d="M78 96 L64 74" stroke="${D}" stroke-width="2.5"/>
+    <path d="M112 74 L104 48" stroke="${D}" stroke-width="2.5"/>`),
+  mundo: () => S(`
+    <circle cx="110" cy="76" r="58" fill="#7fd8f7" stroke="${D}" stroke-width="4"/>
+    <path d="M66 52 q22 -12 44 4 q-10 22 -38 16 z" fill="#43aa8b"/>
+    <path d="M108 92 q28 -6 34 22 q-28 12 -40 -6 z" fill="#43aa8b"/>
+    <circle cx="110" cy="76" r="58" fill="none" stroke="${D}" stroke-width="4"/>
+    <path d="M96 122 q14 12 30 0" stroke="${D}" stroke-width="3" fill="none" stroke-linecap="round"/>`)
+};
+
+/* =========================================================
+   2. CONTENIDO: 4 MÓDULOS × 15 MISIONES
+   · En TODAS las misiones las opciones incorrectas son
+     tan largas o más largas que la correcta.
+   · La correcta alterna A / B / C.
+   ========================================================= */
+const MODULES = [
+{
+  emoji:"🔌", color:"#ffd166", art:"circuito",
+  title:"La Arquitectura del Circuito",
+  subtitle:"¿Cómo viaja la energía por un camino cerrado?",
+  fact:"La electricidad no es magia: es energía que cambia de forma. Un circuito es una pista de carreras cerrada por donde corren los electrones.",
+  missions:[
+    { art:"circuito", q:"¿Qué es un circuito eléctrico?", correct:0,
+      options:[
+        "Un camino cerrado por donde viaja la electricidad",
+        "Un montón de cables sueltos que están tirados por el suelo de la casa",
+        "Una caja grande llena de pilas, cables y otros aparatos eléctricos viejos"
+      ],
+      fb:"¡Exacto! La electricidad solo viaja si el camino está cerrado, como una pista de carreras sin salidas." },
+    { art:"pila", q:"En una linterna, ¿quién es la FUENTE de energía?", correct:2,
+      options:[
+        "El bombillo que alumbra la habitación",
+        "El interruptor que está en la pared",
+        "La pila que guarda energía química"
+      ],
+      fb:"¡Muy bien! La pila guarda energía química y la convierte en electricidad." },
+    { art:"cable", q:"¿Qué hace el cable de cobre?", correct:1,
+      options:[
+        "Guarda la electricidad para siempre dentro de una caja muy especial",
+        "Lleva la electricidad de un lado a otro",
+        "Hace mucha luz y calor dentro del circuito eléctrico de la casa"
+      ],
+      fb:"¡Correcto! El cable es la autopista por donde viajan los electrones." },
+    { art:"bombilla", q:"¿Qué hace la bombilla?", correct:0,
+      options:[
+        "Transforma la electricidad en luz y calor",
+        "Corta el paso de la electricidad en el circuito",
+        "Crea energía nueva a partir de la nada, sin necesitar ninguna otra fuente"
+      ],
+      fb:"¡Sí! La bombilla no 'gasta' la energía: la transforma en luz y un poquito de calor." },
+    { art:"interruptor", q:"¿Para qué sirve el interruptor?", correct:2,
+      options:[
+        "Para que la electricidad corra mucho más rápido por todo el circuito",
+        "Para fabricar electrones nuevos cada día dentro de la pila del circuito",
+        "Para abrir o cerrar el camino de la electricidad"
+      ],
+      fb:"¡Genial! El interruptor es como una puerta: si está cerrada, la electricidad pasa; si está abierta, no puede pasar." },
+    { art:"abierto", q:"Si el camino se rompe, ¿qué pasa?", correct:1,
+      options:[
+        "La electricidad salta el hueco sin ningún problema y todo sigue funcionando",
+        "La electricidad no puede pasar y nada funciona",
+        "La bombilla brilla mucho más fuerte que antes y alumbra toda la habitación"
+      ],
+      fb:"¡Así es! Un circuito abierto es un camino cortado: la energía se detiene y el sistema se apaga." },
+    { art:"pila", q:"¿Qué transformación de energía hace la pila?", correct:0,
+      options:[
+        "De energía química a eléctrica",
+        "De luz a sonido y luego a calor",
+        "De movimiento a energía química"
+      ],
+      fb:"¡Perfecto! Dentro de la pila, la energía química se convierte en energía eléctrica." },
+    { art:"motor", q:"¿Qué transformación hace un motor?", correct:2,
+      options:[
+        "De movimiento a energía eléctrica y después otra vez a movimiento",
+        "De química a energía luminosa y también a energía calorífica",
+        "De eléctrica a energía de movimiento"
+      ],
+      fb:"¡Muy bien! El motor recibe electricidad y la transforma en movimiento." },
+    { art:"pila", q:"¿Cuál es el dibujo (símbolo) de la pila?", correct:1,
+      options:[
+        "Un círculo con una X dentro del símbolo, como el de la bombilla",
+        "Dos líneas paralelas, una larga y una corta",
+        "Una línea recta y continua que no se corta nunca, como un cable"
+      ],
+      fb:"¡Correcto! La línea larga es el polo positivo (+) y la corta es el negativo (−)." },
+    { art:"timbre", q:"El timbre de una casa, dentro del circuito es...", correct:0,
+      options:[
+        "Un receptor dentro del circuito",
+        "Una fuente que entrega energía nueva",
+        "Un conductor que lleva la carga"
+      ],
+      fb:"¡Sí! El timbre recibe la electricidad y la transforma en sonido." },
+    { art:"solar", q:"El panel solar del techo es...", correct:2,
+      options:[
+        "Un receptor que gasta energía y luz cada vez que se enciende en la casa",
+        "Un control que corta el paso de la corriente cuando se abre el interruptor",
+        "Una fuente que convierte luz en electricidad"
+      ],
+      fb:"¡Muy bien! El panel solar toma la luz del sol y la convierte en electricidad." },
+    { art:"cable", q:"Un cable de cobre es...", correct:1,
+      options:[
+        "Un receptor que hace luz y calor cuando pasa la corriente eléctrica",
+        "Un conductor que lleva la corriente",
+        "Una fuente que da energía al circuito"
+      ],
+      fb:"¡Exacto! Su trabajo es transportar la carga eléctrica de un punto a otro." },
+    { art:"interruptor", q:"Un interruptor en posición OFF es...", correct:0,
+      options:[
+        "Un control que corta el paso de la corriente",
+        "Un receptor que hace mucha luz y calor en la casa cuando está encendido",
+        "Una fuente que entrega energía nueva al circuito"
+      ],
+      fb:"¡Correcto! El interruptor no transforma energía: solo decide si el camino está abierto o cerrado." },
+    { art:"bombilla", q:"¿Qué le pasa a la energía dentro de la bombilla?", correct:2,
+      options:[
+        "Desaparece para siempre en el aire",
+        "Se convierte en agua y en vapor que se escapan por el aire",
+        "Se transforma en luz y en calor"
+      ],
+      fb:"¡Muy bien! La energía nunca desaparece: solo cambia de forma." },
+    { art:"circuito", q:"En un circuito en serie con 3 bombillas, si una se funde...", correct:1,
+      options:[
+        "Las otras dos siguen encendidas",
+        "Se apagan todas al mismo tiempo",
+        "Las otras dos brillan mucho más"
+      ],
+      fb:"¡Así es! En serie hay un solo camino: si se rompe en un punto, se corta todo el circuito." }
+  ]
+},
+{
+  emoji:"⚡", color:"#ef476f", art:"corto",
+  title:"El Flujo Seguro",
+  subtitle:"¡Seguridad, orden y cuidado de los materiales!",
+  fact:"La electricidad no perdona el descuido. Un cortocircuito no es un accidente: es lo que pasa cuando la electricidad encuentra un camino demasiado fácil.",
+  missions:[
+    { art:"corto", q:"¿Qué es un cortocircuito?", correct:1,
+      options:[
+        "Cuando la pila se queda sin carga de repente en el circuito",
+        "Cuando la corriente encuentra un camino sin resistencia",
+        "Cuando el interruptor está abierto y no pasa absolutamente nada de corriente"
+      ],
+      fb:"¡Exacto! Si no hay resistencia, la corriente se vuelve enorme y el cable se calienta muchísimo." },
+    { art:"corto", q:"Ves que el cable se pone rojo y humea. ¿Qué haces PRIMERO?", correct:0,
+      options:[
+        "Desconectar la fuente de inmediato",
+        "Soplarlo con fuerza para que se enfríe",
+        "Tocarlo con la mano para ver si está caliente"
+      ],
+      fb:"¡Muy bien! Primero la seguridad: se corta la energía. Nunca se toca un cable caliente." },
+    { art:"cable", q:"¿Qué es un falso contacto?", correct:2,
+      options:[
+        "Un cable demasiado corto para el circuito eléctrico que hay en la casa",
+        "Una pila nueva que todavía no se ha usado y que guarda mucha energía",
+        "Una conexión floja que a veces deja pasar la corriente"
+      ],
+      fb:"¡Correcto! Es un enemigo silencioso: el circuito funciona a ratos." },
+    { art:"multimetro", q:"¿Con qué aparato revisas si un cable está en buen estado?", correct:1,
+      options:[
+        "Con una lupa para ver los cables de cerca",
+        "Con el multímetro que mide la continuidad",
+        "Con un imán muy grande que atrae los electrones del cable"
+      ],
+      fb:"¡Sí! El multímetro mide la continuidad y nos dice si la electricidad puede pasar." },
+    { art:"checklist", q:"¿Cuál es el PRIMER paso para desmontar un circuito?", correct:0,
+      options:[
+        "Abrir el interruptor y desconectar la fuente",
+        "Guardar la pila primero y después los cables",
+        "Soplar los cables con fuerza para que se enfríen lo más rápido posible"
+      ],
+      fb:"¡Muy bien! Primero se corta la energía. Nunca se desarma algo encendido." },
+    { art:"rayo", q:"¿Puedes encender la fuente sin que el profe revise el circuito?", correct:2,
+      options:[
+        "Sí, si tengo mucha prisa y nadie me ve haciendo la conexión",
+        "Sí, si el circuito es pequeño y no hay ningún peligro para nadie",
+        "No, nunca, porque es peligroso y no está permitido"
+      ],
+      fb:"¡Correcto! La revisión del docente es el escudo que protege a todos en el laboratorio." },
+    { art:"abierto", q:"La bombilla no enciende. ¿Qué revisas primero?", correct:1,
+      options:[
+        "Si el piso del laboratorio está limpio y ordenado",
+        "Si la pila todavía tiene carga suficiente",
+        "Si la bombilla es bonita, nueva y de un color llamativo"
+      ],
+      fb:"¡Muy bien! Siempre se empieza por la fuente: si no hay voltaje, lo demás no importa." },
+    { art:"bombilla", q:"La pila tiene carga y el cable está bien. ¿Dónde está la falla?", correct:0,
+      options:[
+        "En el receptor: la bombilla está fundida",
+        "En el interruptor de la casa del vecino",
+        "En el aire que rodea al circuito y en la temperatura del ambiente"
+      ],
+      fb:"¡Exacto! Si la fuente y los cables están bien, el problema está en el receptor." },
+    { art:"pila", q:"Terminas la práctica y dejas la pila conectada. Eso es...", correct:2,
+      options:[
+        "Una buena idea para no olvidarla nunca más en el laboratorio de física",
+        "No importa en absoluto, porque la pila no se gasta sola nunca",
+        "Una falta: desperdicia energía y daña los materiales"
+      ],
+      fb:"¡Así es! La pila se descarga sola y el material se deteriora." },
+    { art:"corto", q:"Si la resistencia es casi cero, la corriente...", correct:1,
+      options:[
+        "Baja a cero y no pasa nada de corriente por el cable ni por el receptor",
+        "Sube muchísimo y calienta todo el circuito",
+        "Se queda exactamente igual que antes, sin ningún cambio en el circuito"
+      ],
+      fb:"¡Correcto! Por eso el cortocircuito es tan peligroso: produce calor extremo." },
+    { art:"cable", q:"¿Qué significa que un cable tenga 'continuidad'?", correct:0,
+      options:[
+        "Que deja pasar la electricidad sin cortarse",
+        "Que es muy largo y llega a todas partes de la casa sin ningún problema",
+        "Que es de color café y se ve muy bonito en el laboratorio de física"
+      ],
+      fb:"¡Muy bien! Continuidad es que el camino está completo, sin interrupciones." },
+    { art:"corto", q:"Un cable pelado toca los dos polos de la pila. ¿Qué es?", correct:2,
+      options:[
+        "Un circuito perfecto que funciona muy bien y sin ningún problema",
+        "Un receptor que transforma la energía en luz",
+        "Un cortocircuito peligroso que hay que evitar"
+      ],
+      fb:"¡Exacto! La corriente se va por el camino fácil y no pasa por ningún receptor." },
+    { art:"checklist", q:"Apretar bien las pinzas cocodrilo es...", correct:1,
+      options:[
+        "Una pérdida de tiempo en el laboratorio de física y de química",
+        "Una buena práctica de seguridad eléctrica",
+        "Algo peligroso que no se debe hacer nunca en el laboratorio"
+      ],
+      fb:"¡Muy bien! Una conexión firme evita falsos contactos y chispazos." },
+    { art:"checklist", q:"¿Por qué hay que guardar los materiales del laboratorio?", correct:0,
+      options:[
+        "Porque son de todos y cuidarlos es respeto",
+        "Porque son míos y hago con ellos lo que quiera cuando termine la clase",
+        "Porque el profe se enoja si no los guardamos"
+      ],
+      fb:"¡Correcto! El material es patrimonio compartido: cuidarlo es cuidar a los demás." },
+    { art:"checklist", q:"Antes de conectar la fuente, el circuito debe estar...", correct:2,
+      options:[
+        "Escondido debajo de la mesa del laboratorio",
+        "Mojado con agua para que funcione mejor",
+        "Revisado y aprobado antes por el docente"
+      ],
+      fb:"¡Excelente! Ese es el protocolo de oro del laboratorio." }
+  ]
+},
+{
+  emoji:"🌎", color:"#06d6a0", art:"mapa",
+  title:"El Ecosistema Energético",
+  subtitle:"¿De dónde viene la luz de Latinoamérica?",
+  fact:"En Latinoamérica vivimos más de 600 millones de personas. Cada megavatio deja una huella en el territorio: en el agua, en el viento, en el suelo.",
+  missions:[
+    { art:"represa", q:"¿Qué hace una represa hidroeléctrica?", correct:2,
+      options:[
+        "Quema grandes cantidades de petróleo para producir electricidad",
+        "Atrapa el viento con unos molinos gigantes que giran todo el día",
+        "Usa la fuerza del agua para hacer electricidad"
+      ],
+      fb:"¡Sí! El agua que cae hace girar unas turbinas y produce electricidad." },
+    { art:"represa", q:"La gran represa de Itaipú está entre...", correct:1,
+      options:[
+        "Chile y Perú, en el sur del continente americano y cerca del océano",
+        "Brasil y Paraguay, en el corazón de Sudamérica",
+        "México y Estados Unidos, en el norte del continente americano"
+      ],
+      fb:"¡Correcto! Itaipú está en la frontera de Brasil y Paraguay." },
+    { art:"solar", q:"¿Cuál es el problema del sol y del viento como energía?", correct:0,
+      options:[
+        "Que son intermitentes: no siempre hay sol ni viento",
+        "Que son muy caros de mirar directamente a los ojos",
+        "Que no existen en ningún país del mundo, ni siquiera en los más grandes"
+      ],
+      fb:"¡Muy bien! A veces el sol no sale y el viento se calma." },
+    { art:"termica", q:"¿Qué fuente de energía contamina más el aire?", correct:2,
+      options:[
+        "La solar, que usa la luz del sol para producir electricidad limpia",
+        "La hidroeléctrica, que usa el agua de los ríos",
+        "La térmica, que quema petróleo y gas"
+      ],
+      fb:"¡Exacto! Al quemar combustibles se liberan gases que ensucian el aire." },
+    { art:"casa", q:"¿Qué es la pobreza energética?", correct:1,
+      options:[
+        "Cuando hay muchas pilas guardadas en un cajón de la casa y nadie las usa",
+        "Cuando una familia no tiene electricidad segura",
+        "Cuando la luz es muy brillante y molesta a los ojos de las personas"
+      ],
+      fb:"¡Correcto! Sin energía no hay luz para estudiar, ni nevera, ni salud." },
+    { art:"molino", q:"La Guajira, en Colombia, es famosa por...", correct:0,
+      options:[
+        "Su viento fuerte, ideal para hacer energía",
+        "Sus volcanes activos y sus montañas nevadas",
+        "Su nieve y sus paisajes de invierno que atraen a muchos turistas"
+      ],
+      fb:"¡Muy bien! La Guajira tiene uno de los mejores vientos del planeta." },
+    { art:"solar", q:"El desierto de Atacama, en Chile, es famoso por...", correct:2,
+      options:[
+        "Sus ríos caudalosos y sus bosques verdes que crecen todo el año",
+        "Sus bosques y sus ríos profundos que recorren todo el desierto",
+        "Su sol intenso, uno de los más fuertes del mundo"
+      ],
+      fb:"¡Exacto! Es uno de los lugares con más luz solar del mundo." },
+    { art:"represa", q:"Cuando se inunda un valle para una represa, los animales...", correct:1,
+      options:[
+        "Aprenden a nadar mucho mejor y se adaptan al agua de la represa",
+        "Pierden su hogar y su territorio",
+        "Se mudan muy contentos a otro lugar"
+      ],
+      fb:"¡Así es! Los megaproyectos tienen un costo para la naturaleza y las comunidades." },
+    { art:"molino", q:"Un molino gigante que gira con el viento produce energía...", correct:0,
+      options:[
+        "Eólica, porque usa la fuerza del viento",
+        "Solar, porque usa la luz del sol que llega desde el cielo",
+        "Térmica, porque quema combustibles fósiles como el petróleo"
+      ],
+      fb:"¡Correcto! 'Eólico' viene de Eolo, el dios del viento." },
+    { art:"solar", q:"Un panel que atrapa la luz del sol produce energía...", correct:2,
+      options:[
+        "Eólica, porque usa el viento que sopla muy fuerte en la zona",
+        "Química, porque usa pilas y baterías",
+        "Solar, porque atrapa la luz del sol"
+      ],
+      fb:"¡Muy bien! Los paneles solares transforman la luz en electricidad." },
+    { art:"solar", q:"¿Qué gran ventaja tiene el sol?", correct:1,
+      options:[
+        "Se acaba mañana y no vuelve nunca",
+        "Es limpio, gratis y no contamina",
+        "Solo sale de noche y calienta poco"
+      ],
+      fb:"¡Sí! El sol no contamina al producir energía y brilla para todos." },
+    { art:"mapa", q:"¿Qué es la matriz energética de un país?", correct:0,
+      options:[
+        "El conjunto de fuentes que le dan energía",
+        "Una tabla de multiplicar de la escuela que usan los estudiantes",
+        "Un tipo de cable muy largo y grueso que se usa en las casas"
+      ],
+      fb:"¡Correcto! Es como una receta: qué porcentaje viene del agua, del sol, del viento o del petróleo." },
+    { art:"mapa", q:"¿Por qué es bueno tener varias fuentes de energía?", correct:2,
+      options:[
+        "Porque ocupan más espacio en el país y eso es bueno para todos",
+        "Porque son más bonitas de mirar y decoran el paisaje del país",
+        "Porque si una falla, las otras ayudan"
+      ],
+      fb:"¡Muy bien! Una matriz diversificada es una matriz fuerte y segura." },
+    { art:"solar", q:"Un problema de los paneles solares viejos es que...", correct:1,
+      options:[
+        "Desaparecen solos con el tiempo y no dejan ningún rastro",
+        "Se vuelven basura difícil de reciclar",
+        "Se los comen los pájaros del desierto"
+      ],
+      fb:"¡Exacto! Hay que pensar en reciclar los paneles al final de su vida útil." },
+    { art:"molino", q:"¿Cuál de estas es una energía renovable?", correct:0,
+      options:[
+        "El viento, que se renueva solo",
+        "El petróleo, que un día se acabará",
+        "El carbón, que contamina mucho"
+      ],
+      fb:"¡Correcto! El viento se renueva solo. El petróleo y el carbón se van a acabar." }
+  ]
+},
+{
+  emoji:"💡", color:"#118ab2", art:"casa",
+  title:"Ciudadanía Energética",
+  subtitle:"¡Tú también eres parte del circuito!",
+  fact:"Cada vez que enciendes un interruptor tomas una decisión que afecta al planeta. Apagar la luz no es solo ahorrar dinero: es cuidar el agua, el aire y a los demás.",
+  missions:[
+    { art:"fantasma", q:"¿Qué es el consumo fantasma?", correct:0,
+      options:[
+        "La energía que gastan los aparatos apagados pero enchufados",
+        "Un fantasma que apaga la luz por la noche en toda la casa",
+        "La energía que tienen las pilas nuevas cuando se compran en la tienda"
+      ],
+      fb:"¡Muy bien! Los aparatos en 'modo espera' siguen gastando energía." },
+    { art:"casa", q:"Sales de tu cuarto. ¿Qué haces?", correct:2,
+      options:[
+        "Dejar todo encendido y salir corriendo",
+        "Encender más luces para ver mucho mejor toda la habitación",
+        "Apagar la luz para no gastar energía"
+      ],
+      fb:"¡Correcto! Apagar lo que no usamos es el primer paso del ciudadano energético." },
+    { art:"bombillas2", q:"¿Qué bombilla gasta menos energía?", correct:1,
+      options:[
+        "La incandescente, que alumbra muy bien",
+        "La LED, que gasta mucha menos energía",
+        "La de gasolina, que alumbra más y no gasta casi nada de energía"
+      ],
+      fb:"¡Sí! El LED aprovecha casi toda la energía en luz." },
+    { art:"bombillas2", q:"¿Qué significa eficiencia energética?", correct:0,
+      options:[
+        "Hacer lo mismo usando menos energía",
+        "Usar más energía para tener más luz",
+        "Apagar todo para siempre y no gastar"
+      ],
+      fb:"¡Exacto! No se trata de vivir a oscuras, sino de hacer las cosas mejor." },
+    { art:"hoja", q:"¿Qué es la huella de carbono?", correct:2,
+      options:[
+        "Una marca que deja el zapato en el piso de la casa cuando caminamos",
+        "Un tipo de zapato para caminar por la montaña y por la ciudad",
+        "La contaminación que dejan nuestras actividades"
+      ],
+      fb:"¡Muy bien! Cada kilovatio que gastamos deja una pequeña marca en el planeta." },
+    { art:"checklist", q:"La etiqueta 'Clase A' en un aparato significa que...", correct:1,
+      options:[
+        "Es muy ruidoso y molesta a los vecinos",
+        "Gasta poca energía y es eficiente",
+        "Es de color azul, bonito y muy llamativo para los niños"
+      ],
+      fb:"¡Correcto! La clase A es la más eficiente de todas." },
+    { art:"fantasma", q:"Dejar el cargador enchufado sin el celular es...", correct:0,
+      options:[
+        "Consumo fantasma que gasta energía",
+        "Una buena idea para tenerlo listo siempre",
+        "Algo totalmente gratis y sin costo"
+      ],
+      fb:"¡Muy bien! El cargador sigue 'trabajando' aunque no cargue nada." },
+    { art:"mundo", q:"¿Para qué ahorramos energía?", correct:2,
+      options:[
+        "Solo para tener más dinero en el bolsillo y comprar más aparatos",
+        "Para que la casa quede oscura y triste, sin ninguna luz encendida",
+        "Para cuidar el planeta y que todos tengan luz"
+      ],
+      fb:"¡Exacto! Ahorrar energía es un acto de solidaridad con el planeta." },
+    { art:"casa", q:"Usar la luz del sol de día en vez del bombillo es...", correct:1,
+      options:[
+        "Un desperdicio de energía y de dinero",
+        "Una práctica eficiente y ecológica",
+        "Un peligro para la salud de las personas que viven en la casa"
+      ],
+      fb:"¡Muy bien! La luz natural es gratis y no contamina." },
+    { art:"fantasma", q:"Dejar la tele en 'standby' toda la noche es...", correct:0,
+      options:[
+        "Un derroche de energía sin darnos cuenta",
+        "Un ahorro de energía muy importante para toda la familia y el planeta",
+        "Algo necesario para que el aparato funcione correctamente siempre"
+      ],
+      fb:"¡Correcto! El modo espera puede llegar al 10% de la factura." },
+    { art:"rayo", q:"Botar las pilas usadas a la basura común es...", correct:2,
+      options:[
+        "Correcto, porque así se hace siempre en todas las casas y escuelas",
+        "Lo mejor que se puede hacer con las pilas que ya no se usan",
+        "Una falta ética: contaminan mucho el suelo"
+      ],
+      fb:"¡Exacto! Las pilas tienen químicos que contaminan suelo y agua." },
+    { art:"mundo", q:"El nivel más alto de ciudadanía energética es...", correct:1,
+      options:[
+        "Consumidor ciego, que no sabe nada de energía y desperdicia todo",
+        "Defensor del recurso, que cuida siempre",
+        "Ahorrador reactivo, que solo mira la factura"
+      ],
+      fb:"¡Muy bien! El defensor cuida la energía en su vida, su casa y su profesión." },
+    { art:"casa", q:"¿Cuál es un acto de ciudadanía energética?", correct:0,
+      options:[
+        "Apagar y desconectar lo que no usas",
+        "Dejar todo encendido por comodidad",
+        "Usar el celular mientras duermes y dejarlo cargando toda la noche"
+      ],
+      fb:"¡Correcto! Pequeños actos repetidos todos los días cambian el mundo." },
+    { art:"rayo", q:"La energía no se crea ni se destruye, solo se...", correct:2,
+      options:[
+        "Pierde para siempre en el aire y ya no se puede volver a usar",
+        "Esconde en un cajón de la casa para siempre y nunca más se usa",
+        "Transforma en otra forma de energía"
+      ],
+      fb:"¡Exacto! Es la ley más importante de la energía." },
+    { art:"casa", q:"¿Cuál es el mejor compromiso para tu casa?", correct:1,
+      options:[
+        "Comprar más aparatos eléctricos para la casa",
+        "Cambiar los bombillos por LED y desconectar",
+        "Dejar las luces encendidas de noche y durante todo el día también"
+      ],
+      fb:"¡Excelente! Ese es el compromiso del verdadero defensor del recurso." }
+  ]
+}
+];
+
+/* =========================================================
+   3. ESTADO Y UTILIDADES
+   ========================================================= */
+const KEY = 'tallerEnergia_v1';
+let done = {};
+try { done = JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ done = {}; }
+
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(done)); }catch(e){} }
+function countDone(){ return Object.keys(done).filter(k => done[k]).length; }
+function moduleCount(mi){
+  return MODULES[mi].missions.filter((_,qi) => done[mi+'-'+qi]).length;
+}
+function updateStars(){
+  const el = document.getElementById('starCount');
+  if(el) el.textContent = countDone();
+}
+function popStars(){
+  const cont = document.createElement('div');
+  cont.className = 'pop-layer';
+  for(let i=0;i<9;i++){
+    const s = document.createElement('span');
+    s.textContent = Math.random() < .5 ? '⭐' : '✨';
+    s.style.left = (12 + Math.random()*76) + '%';
+    s.style.animationDelay = (Math.random()*0.35) + 's';
+    cont.appendChild(s);
+  }
+  document.body.appendChild(cont);
+  setTimeout(()=>cont.remove(), 1800);
+}
+
+const screen = document.getElementById('screen');
+
+/* =========================================================
+   4. PANTALLAS
+   ========================================================= */
+function renderHome(){
+  const total = MODULES.reduce((a,m)=>a+m.missions.length,0);
+  screen.innerHTML = `
+    <h1>⚡ Taller de Energía ⚡</h1>
+    <p class="lead">¡Hola! Soy <b>Chispa</b> 🔆 y te voy a acompañar a descubrir cómo viaja la energía,
+    cómo mantenerte seguro y cómo cuidar el planeta. Elige un módulo y empieza la aventura.</p>
+    <div class="cards">
+      ${MODULES.map((m,i)=>{
+        const c = moduleCount(i);
+        const t = m.missions.length;
+        const pct = Math.round(c/t*100);
+        return `<button class="card" data-m="${i}">
+          <div class="emoji" style="background:${m.color}">${m.emoji}</div>
+          <div style="flex:1">
+            <h3>Misión ${i+1} · ${m.title}</h3>
+            <p>${m.subtitle}</p>
+            <div class="mini-bar"><div class="mini-fill" style="width:${pct}%;background:${m.color}"></div></div>
+            <p style="margin-top:5px;font-weight:bold;color:${m.color}">
+              ${c}/${t} ${c===t?'· ¡Completado! 🏅':''}
+            </p>
+          </div>
+        </button>`;
+      }).join('')}
+    </div>
+    <div class="total">⭐ Misiones completadas: <b>${countDone()}</b> de ${total}</div>
+    <button class="reset" id="reset">Borrar mi progreso y empezar de nuevo</button>
+  `;
+  document.querySelectorAll('.card').forEach(c=>{
+    c.addEventListener('click', ()=> renderIntro(+c.dataset.m));
+  });
+  document.getElementById('reset').addEventListener('click', ()=>{
+    if(confirm('¿Seguro que quieres borrar todo tu progreso?')){
+      done = {}; save(); updateStars(); renderHome();
+    }
+  });
+  updateStars();
+}
+
+function renderIntro(mi){
+  const m = MODULES[mi];
+  const c = moduleCount(mi), t = m.missions.length;
+  screen.innerHTML = `
+    <div class="panel">
+      <div class="badge" style="background:${m.color}">${m.emoji}</div>
+      <h2>Misión ${mi+1}: ${m.title}</h2>
+      <p class="lead" style="margin-bottom:0">${m.subtitle}</p>
+      <div class="art-box" style="margin-top:14px">${ART[m.art]()}</div>
+      <p class="fact">💡 <b>¿Sabías que...?</b><br>${m.fact}</p>
+      <p style="font-size:.9rem;color:#5c6070">Ya completaste <b>${c}</b> de <b>${t}</b> misiones de este módulo.</p>
+      <button class="big-btn" id="start">${c===0?'¡Empezar las 15 misiones!':'Continuar'}</button>
+      <button class="link-btn" id="back">← Volver al inicio</button>
+    </div>`;
+  document.getElementById('start').addEventListener('click', ()=>{
+    let next = 0;
+    while(next < m.missions.length && done[mi+'-'+next]) next++;
+    if(next >= m.missions.length) next = 0;
+    renderMission(mi, next);
+  });
+  document.getElementById('back').addEventListener('click', renderHome);
+  updateStars();
+}
+
+let locked = false;
+function renderMission(mi, qi){
+  locked = false;
+  const m = MODULES[mi];
+  const q = m.missions[qi];
+  const correct = q.correct;
+
+  screen.innerHTML = `
+    <div class="mhead">
+      <span class="pill" style="background:${m.color}">${m.emoji} Módulo ${mi+1}</span>
+      <span class="pill light">Misión ${qi+1} de ${m.missions.length}</span>
+    </div>
+    <div class="dots">
+      ${m.missions.map((_,i)=>`<span class="dot ${done[mi+'-'+i]?'done':''} ${i===qi?'now':''}"></span>`).join('')}
+    </div>
+    <div class="art-box">${ART[q.art]()}</div>
+    <h3 class="qtext">${q.q}</h3>
+    <div class="opts" id="opts">
+      ${q.options.map((opt,pos)=>`
+        <button class="opt" data-oi="${pos}">
+          <span class="letter">${'ABC'[pos]}</span>
+          <span>${opt}</span>
+        </button>`).join('')}
+    </div>
+    <div id="feedback"></div>
+  `;
+
+  document.querySelectorAll('.opt').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(locked) return;
+      const oi = +btn.dataset.oi;
+      if(oi === correct){
+        locked = true;
+        btn.classList.add('correct');
+        document.querySelectorAll('.opt').forEach(b=>{
+          if(+b.dataset.oi !== correct) b.classList.add('dim');
+        });
+        done[mi+'-'+qi] = true;
+        save(); updateStars(); popStars();
+        showFeedback(true, q.fb, mi, qi);
+      } else {
+        btn.classList.add('wrong');
+        btn.disabled = true;
+        showFeedback(false, '¡Casi! No es esa. Respira, mira el dibujo y vuelve a intentarlo. 🤔', mi, qi);
+      }
+    });
+  });
+
+  updateStars();
+}
+
+function showFeedback(ok, text, mi, qi){
+  const m = MODULES[mi];
+  const isLast = qi === m.missions.length - 1;
+  const box = document.getElementById('feedback');
+  if(!box) return;
+  box.innerHTML = `
+    <div class="fb ${ok?'ok':'no'}">
+      <div class="fb-text">${ok?'✅ ¡Muy bien! ':'💡 '}${text}</div>
+      ${ok ? `<button class="big-btn" id="next">${isLast?'🏁 Terminar el módulo':'Siguiente ➡'}</button>` : ''}
+    </div>`;
+  if(ok){
+    document.getElementById('next').addEventListener('click', ()=>{
+      if(isLast) renderEnd(mi);
+      else renderMission(mi, qi+1);
+    });
+  }
+}
+
+function renderEnd(mi){
+  const m = MODULES[mi];
+  const hasNext = mi < MODULES.length - 1;
+  screen.innerHTML = `
+    <div class="panel">
+      <div class="badge" style="background:${m.color};font-size:3.2rem">🏅</div>
+      <h2>¡Módulo ${mi+1} completado!</h2>
+      <p class="lead">Terminaste las ${m.missions.length} misiones de <b>${m.title}</b>.<br>
+      ¡Chispa está muy orgullosa de ti! ⚡</p>
+      <div class="art-box">${ART[m.art]()}</div>
+      <p class="fact">🌟 <b>Tu medalla:</b> ${mi===0?'Constructor de Circuitos':mi===1?'Guardián de la Seguridad':mi===2?'Explorador Energético':'Ciudadano Energético'}</p>
+      ${hasNext ? `<button class="big-btn alt" id="nextMod">Ir al Módulo ${mi+2} ➡</button>` : ''}
+      <button class="big-btn" id="again" style="background:#8d93a5">Repetir este módulo</button>
+      <button class="link-btn" id="home">← Volver al inicio</button>
+    </div>`;
+  popStars();
+  if(hasNext){
+    document.getElementById('nextMod').addEventListener('click', ()=> renderIntro(mi+1));
+  }
+  document.getElementById('again').addEventListener('click', ()=> renderMission(mi, 0));
+  document.getElementById('home').addEventListener('click', renderHome);
+  updateStars();
+}
+
+/* =========================================================
+   5. ARRANQUE
+   ========================================================= */
+document.getElementById('btnHome').addEventListener('click', renderHome);
+renderHome();
+</script>
+</body>
+</html>
